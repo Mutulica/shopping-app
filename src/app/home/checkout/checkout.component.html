@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <form #detailsForm="ngForm">
+        <div class="form-group">
+          <label for="name">Full name</label>
+          <input ngModel type="text" name="name" id="name" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input ngModel type="text" name="email" id="email" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="name">Address</label>
+          <input ngModel type="text" name="address" id="address" class="form-control">
+        </div>
+        <div class="form-group">
+          <button (click)="placeOrder(detailsForm)" class="btn btn-outline-success text-uppercase">Place order</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6 bg-light border border-light">
+      <div class="col-md-12 py-3" *ngFor="let product of cartItems">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <img [src]="product.product.img" alt="" width="50">
+          </div>
+          <div>
+            {{product.product.title}}
+          </div>
+          <div>
+            <span class="px-2">Qty: {{product.quantity}}</span>
+            <span class="px-2">${{product.quantity * product.product.price}}</span>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <div class="col-md-12 py-3">
+        <div class="float-right">
+          Total: ${{cartTotal}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

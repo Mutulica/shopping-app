@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-12" *ngFor="let product of productData; let i = index">
+      <div  class="card mb-3">
+        <div class="card-body">
+          <div (click)="viewProduct(product.id)" class="clickable">
+            <img class="img-fluid" [src]="product.img" alt="">
+            <div class="py-2 text-center">
+              <h4>{{product.title}}</h4>
+              <p>${{product.price}}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="py-2 text-center">
+              <button type="button" (click)="addToCart(product)" class="btn btn-sm btn-primary text-uppercase">Add to cart</button>
+              <!--<button type="button" (click)="viewProduct(product.id)" class="btn btn-primary text-uppercase float-right my-2">View</button>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

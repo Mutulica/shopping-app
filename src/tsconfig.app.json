@@ -7,5 +7,12 @@
   "exclude": [
     "test.ts",
     "**/*.spec.ts"
+  ],
+  "include": [
+    "main.browser.ts",
+    "polyfills.ts",
+    "main.ts",
+    "./app/home/home.module.ts",
+    "./app/admin/admin.module.ts"
   ]
 }

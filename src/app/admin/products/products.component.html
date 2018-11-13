@@ -1,0 +1,57 @@
+<div class="container">
+  <button (click)="addProduct()">Add prod</button>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of productData">
+      <td class="align-middle"><img class="img-fluid" [src]="product.img" alt="" width="50"></td>
+      <td class="align-middle">{{product.title}}</td>
+      <td class="align-middle">{{product.price}}</td>
+      <td class="align-middle">
+        <div class="d-flex justify-content-between">
+          <button (click)="deleteProduct(product.id)" class="btn btn-sm btn-secondary">
+            <i class="fa fa-trash"></i>
+          </button>
+          <button class="btn btn-sm btn-secondary">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button class="btn btn-sm btn-secondary">
+            <i class="fa fa-eye"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="container" *ngIf="ordersData.length > 0">
+  <h4>Orders</h4>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Name</th>
+      <th scope="col">Total items</th>
+      <th scope="col">Total amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let order of ordersData">
+      <th class="align-middle" scope="row"></th>
+      <td class="align-middle">{{order.details.name}}</td>
+      <td class="align-middle">{{order.products.length}}</td>
+      <td class="align-middle">${{order.total}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
