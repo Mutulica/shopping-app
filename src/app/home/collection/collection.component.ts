@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {Product} from '../../entities/product.model';
+import { ProductInterface } from '../product/product.interface';
 
 import { CartService } from '../cart/cart.service';
 
@@ -16,7 +16,7 @@ import {HomeHttpService} from '../home-http.service';
 })
 export class CollectionComponent implements OnInit {
   private filterAsc = false;
-  public productData: Product[];
+  public productData: ProductInterface.Product[];
 
   prodForm: FormGroup;
 
@@ -27,41 +27,26 @@ export class CollectionComponent implements OnInit {
     private router: Router,
     private homeHttp: HomeHttpService
   ) {
-    this.productData = this.collectionService.getAll();
+
+    this.collectionService.getAll().subscribe(res => this.productData = res);
+
   }
 
   ngOnInit() {
 
   }
 
-  public addToCart(item: Product): void {
+  public addToCart(item: ProductInterface.Product): void {
     item.qty = 1;
     if (item.qty > 0) {
       this.cartService.addToCart(item, item.qty);
     }
   }
 
-  public async viewProduct(id: number) {
+  public async viewProduct(id: string) {
     await this.router.navigate([`/home/product/${id}`]);
   }
 
-  public incrementQty(product: Product, index: number) {
-    // qty.value++;
-    // product.qty = +qty.value;
-    // console.log(product.qty, typeof qty.value);
-    product.qty++;
-    this.prodForm.controls['products']['controls'][index].controls.qty.setValue(product.qty);
-  }
-
-  public substractQty(product: Product, index: number) {
-    console.log(product.qty);
-    if (product.qty > 1) {
-      // qty.value--;
-      // product.qty = qty.value;
-      product.qty--;
-      this.prodForm.controls['products']['controls'][index].controls.qty.setValue(product.qty);
-    }
-  }
 
   filterProducts(field) {
     this.filterAsc = !this.filterAsc;

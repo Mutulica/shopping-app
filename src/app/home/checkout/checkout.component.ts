@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart/cart.service';
-import { Item } from '../../entities/item.model';
 import {Observable} from 'rxjs';
 import {NgForm} from '@angular/forms';
 import {HomeHttpService} from '../home-http.service';
+
+import { CartInterface } from '../cart/cart.interface';
 
 @Component({
   selector: 'app-checkout',
@@ -12,8 +13,8 @@ import {HomeHttpService} from '../home-http.service';
 })
 export class CheckoutComponent implements OnInit {
 
-  public shoppingCartItems$: Observable<Item[]>;
-  public cartItems: Item[] = [];
+  public shoppingCartItems$: Observable<CartInterface.Item[]>;
+  public cartItems: CartInterface.Item[] = [];
   public cartTotal: number;
 
   constructor(

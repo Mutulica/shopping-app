@@ -14,13 +14,14 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/admin/products">Admin</a>
+          <a class="nav-link" routerLink="/admin/orders">Orders</a>
         </li>
       </ul>
     </div>
     <div class="float-right">
       <button class="btn btn-primary">
         <i class="fa fa-shopping-cart fa-2x"></i>
-        {{(shoppingCartItems$ | async).length}}
+        {{totalItems}}
       </button>
     </div>
   </nav>

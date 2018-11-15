@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { Product } from '../../entities/product.model';
+import { ProductInterface } from '../product/product.interface';
 
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {HomeHttpService} from '../home-http.service';
+
+
 
 
 
@@ -10,63 +13,31 @@ import { Observable } from 'rxjs';
 
 export class CollectionService {
 
-  public dataProducts: Product[] = [
-    {
-      id: 1,
-      title: 'prod 1',
-      description: 'some description',
-      price: 120,
-      variants: ['red', 'blue', 'green'],
-      img: './assets/img/product.png'
-    },
-    {
-      id: 2,
-      title: 'prod 2',
-      description: 'some description',
-      price: 100,
-      variants: ['red', 'blue', 'green'],
-      img: './assets/img/product.png'
-    },
-    {
-      id: 3,
-      title: 'prod 3',
-      description: 'some description',
-      price: 75,
-      variants: ['red', 'blue', 'green'],
-      img: './assets/img/product.png'
-    },
-    {
-      id: 4,
-      title: 'prod 4',
-      description: 'some description',
-      price: 75,
-      variants: ['red', 'blue', 'green'],
-      img: './assets/img/product.png'
-    },
-    {
-      id: 5,
-      title: 'prod 5',
-      description: 'some description',
-      price: 75,
-      variants: ['red', 'blue', 'green'],
-      img: './assets/img/product.png'
-    }
-  ];
+  private productsSubject: BehaviorSubject<ProductInterface.Product[]> = new BehaviorSubject([]);
+  public dataProducts: ProductInterface.Product[] = [];
 
-  constructor() {}
-
-  getAll() {
-    return this.dataProducts;
+  constructor(
+    private homeHttp: HomeHttpService
+  ) {
+    this.homeHttp.getAll().subscribe((res) => {
+       this.dataProducts = res;
+      this.productsSubject.next([...res]);
+    });
   }
 
-  public findByID(id: number): Product {
+  getAll(): Observable<ProductInterface.Product[]> {
+    return this.productsSubject;
+  }
+
+  public findByID(id: string): ProductInterface.Product {
     const singleProduct = this.dataProducts.filter(_ => _.id === id);
+    console.log(singleProduct);
     if (singleProduct.length > 0) {
       return singleProduct[0];
     }
   }
 
-  public filterAZ(products): Observable<Product[]> {
+  public filterAZ(products): Observable<ProductInterface.Product[]> {
     return products.reduce((a,  b) => {
       return a.price > b.price ? a : b;
     });

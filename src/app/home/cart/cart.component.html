@@ -3,8 +3,10 @@
     <div class="col-md-12 mb-4">
       <h4>Cart Info</h4>
     </div>
-
-    <div class="table-responsive">
+    <div *ngIf="shoppingCartItems.length === 0" class="col-md-12">
+      <h4>You have no items in the shopping cart</h4>
+    </div>
+    <div *ngIf="shoppingCartItems.length > 0" class="table-responsive">
       <table class="table border-light">
         <thead>
         <tr>
@@ -42,12 +44,13 @@
         <td class="align-middle"><h4>{{totalPrice}}</h4></td>
         </tfoot>
       </table>
-    </div>
-    <div class="col-md-12">
-      <div class="p-3">
-        <button routerLink='/home/checkout' class="btn btn-lg btn-outline-primary text-uppercase float-right ml-4">Check out</button>
-        <button class="btn btn-lg btn-primary text-uppercase float-right">Back</button>
+      <div class="col-md-12">
+        <div class="p-3">
+          <button routerLink='/home/checkout' class="btn btn-lg btn-outline-primary text-uppercase float-right ml-4">Check out</button>
+          <button class="btn btn-lg btn-primary text-uppercase float-right">Back</button>
+        </div>
       </div>
     </div>
+
   </div>
 </div>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Product} from '../entities/product.model';
-import { Item } from '../entities/item.model';
+
+
+import { ProductInterface } from './product/product.interface';
+import { CartInterface } from './cart/cart.interface';
 
 import { ProductService } from './product/product.service';
 
@@ -14,10 +16,10 @@ import { Observable } from 'rxjs';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  public productData: Product[];
+  public productData: ProductInterface.Product[];
   public cart = [];
 
-  public shoppingCartItems$: Observable<Item[]>;
+  public shoppingCartItems$: Observable<CartInterface.Item[]>;
 
 
   constructor(
@@ -33,7 +35,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.productData = this.productService.findAll();
+    //this.productData = this.productService.findAll();
   }
 
 

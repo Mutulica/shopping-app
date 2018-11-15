@@ -1,27 +1,24 @@
 import { Injectable } from '@angular/core';
 
-import { Product } from '../../entities/product.model';
+import { ProductInterface } from './product.interface';
+import {CollectionService} from '../collection/collection.service';
+import {HomeHttpService} from '../home-http.service';
 
 @Injectable()
 
 export class ProductService {
-  private products: Product[];
 
-  constructor() {
+  public dataProducts: ProductInterface.Product[];
+
+  constructor(
+    private collectionService: CollectionService,
+    private homeHttp: HomeHttpService
+  ) {
+    this.collectionService.getAll().subscribe(res => this.dataProducts = res);
   }
 
-  findAll(): Product[] {
-    return this.products;
+  public findByID(id: string) {
+    return this.homeHttp.getById(id);
   }
 
-
-
-  // private getSelectedIndex(id: number) {
-  //   for (let i = 0; i < this.products.length; i++) {
-  //     if (this.products[i].id === id) {
-  //       return i;
-  //     }
-  //   }
-  //   return -1;
-  // }
 }

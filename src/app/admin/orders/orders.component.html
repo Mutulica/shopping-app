@@ -1,3 +1,69 @@
-<p>
-  orders works!
-</p>
+<div class="container" *ngIf="ordersData.length > 0">
+  <h4>Orders</h4>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Name</th>
+      <th scope="col">Total items</th>
+      <th scope="col">Total amount</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let order of ordersData">
+      <th class="align-middle" scope="row"></th>
+      <td class="align-middle">{{order.details.name}}</td>
+      <td class="align-middle">{{order.products.length}}</td>
+      <td class="align-middle">${{order.total}}</td>
+      <td class="align-middle">
+        <div class="d-flex justify-content-between">
+          <button (click)="deleteOrder(order.id)" class="btn btn-sm btn-secondary">
+            <i class="fa fa-trash"></i>
+          </button>
+          <button (click)="editOrder(order)" data-toggle="modal" data-target="#editModal" class="btn btn-sm btn-secondary">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button data-toggle="modal" data-target="#modalView" (click)="getOrder(order.id)" class="btn btn-sm btn-secondary">
+            <i class="fa fa-eye"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="modal fade" id="modalView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div *ngIf="order" class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="py-3">
+          <h5>Name: {{order.details.name}}</h5>
+          <p class="mb-2">{{order.details.address}}</p>
+          <p>{{order.details.email}}</p>
+        </div>
+        <div class="py-3">
+          <ul class="list-group list">
+            <li *ngFor="let product of order.products" class="list-group-item">
+              <div class="">
+                <p class="mb-0">Product: {{product.product.title}}</p>
+                <h6>Quantity: {{product.quantity}}</h6>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button (click)="deleteOrder(order.id)" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

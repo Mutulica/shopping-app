@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Product } from '../../entities/product.model';
-import { Item } from '../../entities/item.model';
+import { CartInterface } from './cart.interface';
 
 import { CartService } from './cart.service';
 
@@ -18,8 +17,8 @@ export class CartComponent implements OnInit {
   // public totalItems = 0;
   public totalPrice = 0;
 
-  public shoppingCartItems$: Observable<Item[]> = of([]);
-  public shoppingCartItems: Item[] = [];
+  public shoppingCartItems$: Observable<CartInterface.Item[]> = of([]);
+  public shoppingCartItems: CartInterface.Item[] = [];
 
 
   constructor(
@@ -39,17 +38,17 @@ export class CartComponent implements OnInit {
     //this.cartService.loadCart();
    }
 
-   removeFromCart(item: Item) {
+   removeFromCart(item: CartInterface.Item) {
     this.cartService.removeFromCart(item);
    }
 
 
-  incrementQty(item: Item, qty: number) {
+  incrementQty(item: CartInterface.Item, qty: number) {
     qty++;
     this.cartService.updateCart(item, qty);
   }
 
-  substractQty(item: Item, qty: number) {
+  substractQty(item: CartInterface.Item, qty: number) {
     // let newValue = +input.value;
     if (qty > 1) {
       qty--;

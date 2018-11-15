@@ -1,4 +1,4 @@
-<div class="container" [formGroup]="prodForm">
+<div *ngIf="product" class="container" [formGroup]="prodForm">
   <div class="row">
     <div class="col-md-5 border border-light">
       <img class="img-fluid" [src]="product.img" alt="">

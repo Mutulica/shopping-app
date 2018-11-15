@@ -12,7 +12,7 @@ import { AdminHttpService } from './admin-http.service';
 
 import { AdminRouting } from './admin.routing';
 
-
+import { AngularFireStorage} from '@angular/fire/storage';
 
 
 
@@ -32,6 +32,7 @@ import { AdminRouting } from './admin.routing';
   providers: [
     AdminHttpService,
     ProductService,
+    AngularFireStorage,
   ],
 })
 export class AdminModule { }
