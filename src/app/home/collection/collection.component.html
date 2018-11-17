@@ -1,23 +1,37 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-3 col-sm-6 col-12" *ngFor="let product of productData; let i = index">
+    <div class="col-md-12 my-3">
+      <div class="float-right">
+        <select class="custom-select-sm" (change)="onSetOrder($event.target.value)" name="" id="">
+          <option>Sort</option>
+          <option value="title-az">Order A-Z</option>
+          <option value="title-za">Order Z-A</option>
+          <option value="price-highest">Price highest</option>
+          <option value="price-lowest">Price lowest</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-12"
+         *ngFor="let product of productData | paginate: { itemsPerPage: 10, currentPage: p } | orderBy: order:reverse:'case-insensitive'">
       <div  class="card mb-3">
         <div class="card-body">
           <div (click)="viewProduct(product.id)" class="clickable">
-            <img class="img-fluid" [src]="product.img" alt="">
+            <img class="img-fluid" [src]="product.img.length ? product.img : '../../assets/img/product.png'" alt="">
             <div class="py-2 text-center">
-              <h4>{{product.title}}</h4>
+              <h5>{{product.title}}</h5>
               <p>${{product.price}}</p>
             </div>
           </div>
           <div class="form-group">
             <div class="py-2 text-center">
               <button type="button" (click)="addToCart(product)" class="btn btn-sm btn-primary text-uppercase">Add to cart</button>
-              <!--<button type="button" (click)="viewProduct(product.id)" class="btn btn-primary text-uppercase float-right my-2">View</button>-->
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="col-md-12 text-right my-3">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
   </div>
 </div>

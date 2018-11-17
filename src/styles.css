@@ -7,3 +7,7 @@
 .qty-field {
   max-width: 60px;
 }
+
+.loading-icon {
+  background-image: url("./assets/loading/Loading_icon.gif");;
+}

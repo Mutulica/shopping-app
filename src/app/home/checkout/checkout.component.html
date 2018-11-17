@@ -1,21 +1,50 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6">
-      <form #detailsForm="ngForm">
+      <!--<form #detailsForm="ngForm">-->
+        <!--<div class="form-group">-->
+          <!--<label for="name">Full name</label>-->
+          <!--<input ngModel type="text" name="name" id="name" class="form-control">-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label for="email">Email</label>-->
+          <!--<input ngModel type="text" name="email" id="email" class="form-control">-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label for="address">Address</label>-->
+          <!--<input ngModel type="text" name="address" id="address" class="form-control">-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<label for="city">Address</label>-->
+          <!--<input ngModel type="text" name="address" id="city" class="form-control">-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+          <!--<button (click)="placeOrder(detailsForm)" class="btn btn-outline-success text-uppercase">Place order</button>-->
+        <!--</div>-->
+      <!--</form>-->
+      <form [formGroup]="checkoutForm">
         <div class="form-group">
           <label for="name">Full name</label>
-          <input ngModel type="text" name="name" id="name" class="form-control">
+          <input formControlName="name" id="name" class="form-control">
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input ngModel type="text" name="email" id="email" class="form-control">
+          <input formControlName="email" id="email" class="form-control">
         </div>
         <div class="form-group">
-          <label for="name">Address</label>
-          <input ngModel type="text" name="address" id="address" class="form-control">
+          <label for="address">Address</label>
+          <input formControlName="address" id="address" class="form-control">
         </div>
         <div class="form-group">
-          <button (click)="placeOrder(detailsForm)" class="btn btn-outline-success text-uppercase">Place order</button>
+          <label for="city">City</label>
+          <input formControlName="city" id="city" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="country">Country</label>
+          <input formControlName="country" id="country" class="form-control">
+        </div>
+        <div class="form-group">
+          <button [disabled]="!checkoutForm.valid" (click)="placeOrder()" class="btn btn-outline-success text-uppercase">Place order</button>
         </div>
       </form>
     </div>

@@ -6,6 +6,7 @@ import { CollectionComponent } from './collection/collection.component';
 import { ProductComponent } from './product/product.component';
 import {CheckoutComponent} from './checkout/checkout.component';
 import {HomeComponent} from './home.component';
+import {CheckoutGuard} from './checkout/checkout.guard';
 
 
 const homeRoutes: Routes = [
@@ -14,9 +15,9 @@ const homeRoutes: Routes = [
       { path: 'collection', component: CollectionComponent },
       { path: 'product/:id', component: ProductComponent },
       { path: 'cart', component: CartComponent },
-      { path: 'checkout', component: CheckoutComponent },
+      { path: 'checkout', component: CheckoutComponent, canActivate: [CheckoutGuard] },
     ] },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({

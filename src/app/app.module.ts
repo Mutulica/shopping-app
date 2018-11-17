@@ -11,21 +11,20 @@ import {HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
-import { HeaderComponent } from './header/header.component';
-
+import { CustomValidators } from './utils/validators.service';
 import { CartService } from './home/cart/cart.service';
 import { CollectionService } from './home/collection/collection.service';
 import { ProductService } from './home/product/product.service';
-import { HomeHttpService } from './home/home-http.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 import { AppRouting } from './app.routing';
+
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +37,9 @@ import { AppRouting } from './app.routing';
     AngularFireDatabase,
     CartService,
     CollectionService,
-    ProductService
+    ProductService,
+    AngularFireAuth,
+    CustomValidators
   ],
   bootstrap: [AppComponent]
 })

@@ -10,14 +10,16 @@ import { map } from 'rxjs/operators';
 @Injectable()
 
 export class CartService {
-  private itemsInCartSubject: BehaviorSubject<CartInterface.Item[]> = new BehaviorSubject([]);
 
+  private itemsInCartSubject: BehaviorSubject<CartInterface.Item[]> = new BehaviorSubject([]);
+  // Cart Products array
   public cartProducts: CartInterface.Item[] = [];
 
   constructor() {
     this.itemsInCartSubject.subscribe(_ => this.cartProducts = _);
   }
 
+  // Add to cart
   public addToCart(product: ProductInterface.Product, qty) {
 
     const itemIndex: number = this.getSelectedIndex(product.id);
@@ -28,14 +30,14 @@ export class CartService {
       this.cartProducts[itemIndex].quantity += qty;
     }
     this.itemsInCartSubject.next([...this.cartProducts]);
-    console.log(this.cartProducts);
   }
 
+  // Get Cart Items
   public getItems(): Observable<CartInterface.Item[]> {
-    console.log(this.cartProducts);
     return this.itemsInCartSubject;
   }
 
+  // Get Total amount
   public getTotalAmount(): Observable<number> {
     return this.itemsInCartSubject.pipe(
       map((items: CartInterface.Item[]) => {
@@ -46,12 +48,14 @@ export class CartService {
     );
   }
 
+  // Remove from cart
   public removeFromCart(item: CartInterface.Item) {
     const currentItems = [...this.cartProducts];
     const itemsWithoutRemoved = currentItems.filter(_ => _.product.id !== item.product.id);
     this.itemsInCartSubject.next(itemsWithoutRemoved);
   }
 
+  // Update Cart
   updateCart(item: CartInterface.Item, qty) {
     this.cartProducts.filter(_ => {
       if (_.product.id === item.product.id) {
@@ -59,10 +63,10 @@ export class CartService {
         return this.cartProducts;
       }
     });
-    console.log(this.cartProducts);
     this.itemsInCartSubject.next(this.cartProducts);
   }
 
+  // Find Index
   private getSelectedIndex(id: string): number {
     for (let i = 0; i < this.cartProducts.length; i++) {
       if (this.cartProducts[i].product.id === id) {

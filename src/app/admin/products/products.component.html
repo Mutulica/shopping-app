@@ -1,12 +1,11 @@
 <div class="container">
   <!-- Button trigger modal -->
   <div class="col-md-12 py-3">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newProdModal">
       Add product
     </button>
-
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="newProdModal" tabindex="-1" role="dialog" aria-labelledby="newProdModal" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -19,51 +18,63 @@
             <form [formGroup]="prodForm">
               <div class="form-group">
                 <label for="">Title</label>
-                <input type="text" formControlName="title" id="title" class="form-control">
+                <input required type="text" formControlName="title" id="title" class="form-control">
               </div>
               <div class="form-group">
                 <label for="">Price</label>
-                <input formControlName="price" id="price" type="text" class="form-control">
+                <input required formControlName="price" id="price" type="text" class="form-control">
               </div>
               <div class="form-group">
                 <p class="mb-1">Image</p>
-                <input formControlName="img" type="file">
+                <input required formControlName="img" (change)="onFileUpload($event)" type="file">
               </div>
               <div class="form-group">
                 <label for="">Description</label>
-                <textarea formControlName="description" class="form-control" name="" id="" cols="30" rows="5"></textarea>
+                <textarea required formControlName="description" class="form-control" name="" id="" cols="30" rows="5"></textarea>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" (click)="addProduct()" class="btn btn-primary" data-dismiss="modal">Add</button>
+            <button [disabled]="!prodForm.valid" type="button" (click)="addProduct()" class="btn btn-primary" data-dismiss="modal">Add</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <table class="table">
+  <table *ngIf="this.status.loaded" class="table">
     <thead>
     <tr>
       <th scope="col"></th>
-      <th scope="col">Name</th>
-      <th scope="col">Price</th>
+      <th scope="col" class="clickable"
+          (click)="setOrder('title')"
+          [class.active]="order === 'title'">
+        Name
+        <span [hidden]="reverse">▼</span>
+        <span [hidden]="!reverse">▲</span>
+      </th>
+      <th scope="col" class="clickable"
+          (click)="setOrder('price')"
+          [class.active]="order === 'price'">
+        Price
+        <span [hidden]="reverse">▼</span>
+        <span [hidden]="!reverse">▲</span>
+      </th>
       <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let product of productData">
-      <td class="align-middle"><img class="img-fluid" [src]="product.img" alt="" width="50"></td>
+    <tr *ngFor="let product of productData | paginate: { itemsPerPage: 10, currentPage: p } | orderBy: order:reverse:'case-insensitive'">
+      <td class="align-middle"><img class="img-fluid" [src]="product.img.length ? product.img : '../../assets/img/product.png'" alt="" width="50"></td>
       <td class="align-middle">{{product.title}}</td>
       <td class="align-middle">{{product.price}}</td>
       <td class="align-middle">
-        <div class="d-flex justify-content-between">
-          <button (click)="deleteProduct(product.id)" class="btn btn-sm btn-secondary">
+        <div class="d-flex justify-content-end text-right">
+          <button (click)="deleteProduct(product.id)" class="btn btn-sm btn-secondary mr-2">
             <i class="fa fa-trash"></i>
           </button>
-          <button (click)="editProduct(product)" data-toggle="modal" data-target="#editModal" class="btn btn-sm btn-secondary">
+          <button (click)="editProduct(product)" data-toggle="modal" data-target="#editModal" class="btn btn-sm btn-secondary mr-2">
             <i class="fa fa-pencil"></i>
           </button>
           <button data-toggle="modal" data-target="#modalView" (click)="getProduct(product.id)" class="btn btn-sm btn-secondary">
@@ -74,6 +85,9 @@
     </tr>
     </tbody>
   </table>
+  <div class="col-md-12 text-right my-3">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
 </div>
 
 <!-- Modal -->
@@ -81,34 +95,53 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" >Add product</h5>
+        <h5 class="modal-title" >Edit product</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div *ngIf="product" class="modal-body">
-        <form #editForm="ngForm">
+        <!--<form #editForm="ngForm">-->
+          <!--<div class="form-group">-->
+            <!--<label for="">Title</label>-->
+            <!--<input ngModel name="title" type="text" [value]="product.title" class="form-control">-->
+          <!--</div>-->
+          <!--<div class="form-group">-->
+            <!--<label for="">Price</label>-->
+            <!--<input ngModel name="price" [value]="product.price" type="text" class="form-control">-->
+          <!--</div>-->
+          <!--<div class="form-group">-->
+            <!--<p class="mb-1">Image</p>-->
+            <!--&lt;!&ndash;<input ngModel name="img"   type="file">&ndash;&gt;-->
+          <!--</div>-->
+          <!--<div class="form-group">-->
+            <!--<label for="">Description</label>-->
+            <!--<textarea ngModel name="description" [value]="product.description" class="form-control" cols="30" rows="5"></textarea>-->
+          <!--</div>-->
+        <!--</form>-->
+
+        <form [formGroup]="prodForm">
           <div class="form-group">
             <label for="">Title</label>
-            <input ngModel name="title" type="text" [value]="product.title" class="form-control">
+            <input formControlName="title" type="text" class="form-control">
           </div>
           <div class="form-group">
             <label for="">Price</label>
-            <input ngModel name="price" [value]="product.price" type="text" class="form-control">
+            <input formControlName="price" type="text" class="form-control">
           </div>
           <div class="form-group">
             <p class="mb-1">Image</p>
-            <input ngModel name="img"  type="file">
+            <input (change)="onFileUpload($event)" name="img" type="file">
           </div>
           <div class="form-group">
             <label for="">Description</label>
-            <textarea ngModel name="description" [value]="product.description" class="form-control" cols="30" rows="5"></textarea>
+            <textarea formControlName="description" class="form-control" cols="30" rows="5"></textarea>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" (click)="saveChanges(editForm)" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+        <button [disabled]="!prodForm.valid" type="button" (click)="updateProduct()" class="btn btn-primary" data-dismiss="modal">Save changes</button>
       </div>
     </div>
   </div>
@@ -134,28 +167,5 @@
       </div>
     </div>
   </div>
-</div>
-
-
-<div class="container" *ngIf="ordersData.length > 0">
-  <h4>Orders</h4>
-  <table class="table">
-    <thead>
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">Name</th>
-      <th scope="col">Total items</th>
-      <th scope="col">Total amount</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let order of ordersData">
-      <th class="align-middle" scope="row"></th>
-      <td class="align-middle">{{order.details.name}}</td>
-      <td class="align-middle">{{order.products.length}}</td>
-      <td class="align-middle">${{order.total}}</td>
-    </tr>
-    </tbody>
-  </table>
 </div>
 

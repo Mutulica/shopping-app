@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AdminHttpService} from '../admin-http.service';
+import { OrderInterface } from '../../shared/order.interface';
+import { ProductInterface } from '../products/product.interface';
 
 @Component({
   selector: 'app-orders',
@@ -8,8 +10,11 @@ import {AdminHttpService} from '../admin-http.service';
 })
 export class OrdersComponent implements OnInit {
 
-  public ordersData = [];
-  public order;
+  public ordersData: OrderInterface.Order[];
+  public order: OrderInterface.Order;
+
+  public p = 1;
+
   constructor(
     private adminHttp: AdminHttpService,
   ) {

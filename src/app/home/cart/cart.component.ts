@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 import { CartInterface } from './cart.interface';
 
 import { CartService } from './cart.service';
 
-import {BehaviorSubject, Observable, Subject, Subscriber, of} from 'rxjs';
+import { Observable, of} from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -13,8 +12,6 @@ import {BehaviorSubject, Observable, Subject, Subscriber, of} from 'rxjs';
 })
 
 export class CartComponent implements OnInit {
-  // public cartProducts: Item[] = [];
-  // public totalItems = 0;
   public totalPrice = 0;
 
   public shoppingCartItems$: Observable<CartInterface.Item[]> = of([]);
@@ -23,7 +20,6 @@ export class CartComponent implements OnInit {
 
   constructor(
      private cartService: CartService,
-     private activatedRoute: ActivatedRoute
   ) {
 
     this.shoppingCartItems$ = this.cartService.getItems();
@@ -35,19 +31,20 @@ export class CartComponent implements OnInit {
   }
 
    ngOnInit() {
-    //this.cartService.loadCart();
    }
 
+   // Remove item form cart
    removeFromCart(item: CartInterface.Item) {
     this.cartService.removeFromCart(item);
    }
 
-
+  // Increment quantity
   incrementQty(item: CartInterface.Item, qty: number) {
     qty++;
     this.cartService.updateCart(item, qty);
   }
 
+  // Substract quantity
   substractQty(item: CartInterface.Item, qty: number) {
     // let newValue = +input.value;
     if (qty > 1) {

@@ -1,4 +1,4 @@
-<div class="container" *ngIf="ordersData.length > 0">
+<div class="container" *ngIf="ordersData">
   <h4>Orders</h4>
   <table class="table">
     <thead>
@@ -7,21 +7,23 @@
       <th scope="col">Name</th>
       <th scope="col">Total items</th>
       <th scope="col">Total amount</th>
+      <th scope="col">Date</th>
       <th scope="col">Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let order of ordersData">
+    <tr *ngFor="let order of ordersData | paginate: { itemsPerPage: 10, currentPage: p }">
       <th class="align-middle" scope="row"></th>
       <td class="align-middle">{{order.details.name}}</td>
       <td class="align-middle">{{order.products.length}}</td>
       <td class="align-middle">${{order.total}}</td>
+      <td class="align-middle">{{order?.order_date | date:'short'}}</td>
       <td class="align-middle">
-        <div class="d-flex justify-content-between">
-          <button (click)="deleteOrder(order.id)" class="btn btn-sm btn-secondary">
+        <div class="d-flex justify-content-end">
+          <button (click)="deleteOrder(order.id)" class="btn btn-sm btn-secondary mr-2">
             <i class="fa fa-trash"></i>
           </button>
-          <button (click)="editOrder(order)" data-toggle="modal" data-target="#editModal" class="btn btn-sm btn-secondary">
+          <button (click)="editOrder(order)" data-toggle="modal" data-target="#editModal" class="btn btn-sm btn-secondary mr-2">
             <i class="fa fa-pencil"></i>
           </button>
           <button data-toggle="modal" data-target="#modalView" (click)="getOrder(order.id)" class="btn btn-sm btn-secondary">
@@ -32,6 +34,9 @@
     </tr>
     </tbody>
   </table>
+  <div class="col-md-12 text-right my-3">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
 </div>
 
 
