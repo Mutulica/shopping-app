@@ -11,10 +11,11 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 const adminRoutes: Routes = [
   { path: '', component: AdminComponent,
     children: [
-      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
       { path: 'products', component: ProductsComponent, canActivate: [AuthGuard]},
       { path: 'login', component: LoginComponent },
       { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
+      { path: '', redirectTo: 'products', pathMatch: 'full' },
+      { path: '**', redirectTo: 'products', pathMatch: 'full' },
     ]
   }
 ];

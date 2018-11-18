@@ -26,7 +26,6 @@ export class HomeComponent implements OnInit {
       .getItems();
 
     this.shoppingCartItems$.subscribe(_ => _);
-    console.log(this.shoppingCartItems$);
   }
 
   ngOnInit() {}

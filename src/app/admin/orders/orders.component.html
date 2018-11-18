@@ -73,13 +73,14 @@
           <h5>{{order.details.name}}</h5>
           <p class="mb-2">{{order.details.address}}, {{order.details.city}}, {{order.details.country}}</p>
           <p>{{order.details.email}}</p>
+          <p><strong>Total: ${{order.total}}</strong></p>
         </div>
         <div class="py-3">
           <ul class="list-group list">
             <li *ngFor="let product of order.products" class="list-group-item">
               <div class="">
-                <p class="mb-0">{{product.product.title}}</p>
-                <h6>Quantity: {{product.quantity}}</h6>
+                <p class="mb-0">{{product.product.title}} x {{product.quantity}}</p>
+                <!--<h6>x </h6>-->
               </div>
             </li>
           </ul>

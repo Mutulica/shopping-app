@@ -53,11 +53,7 @@ export class AdminHttpService {
   // Add Product
   public async productAdd(product: ProductInterface.Product) {
     product.id = this.afs.createId();
-    this.afs.collection('products').doc(product.id).set(product).then(
-      res => {
-        console.log(res);
-      }
-    );
+    await this.afs.collection('products').doc(product.id).set(product);
   }
 
   // Edit Product
@@ -96,7 +92,7 @@ export class AdminHttpService {
   // Upload File
   public async uploadfile(file) {
     const uploadFile = await this.storage.upload(file.name, file);
-    const fileSrc = await uploadFile.ref.getDownloadURL();
+    const fileSrc =  uploadFile.ref.getDownloadURL();
     return fileSrc;
   }
 

@@ -1,7 +1,7 @@
 <div class="container">
   <!-- Button trigger modal -->
   <div class="col-md-12 py-3">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newProdModal">
+    <button (click)="onProductAdd()" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#newProdModal">
       Add product
     </button>
     <!-- Modal -->
@@ -25,7 +25,7 @@
                 <input required formControlName="price" id="price" type="text" class="form-control">
               </div>
               <div class="form-group">
-                <p class="mb-1">Image</p>
+                <p class="mb-1">Add image</p>
                 <input (change)="onFileUpload($event)" type="file">
               </div>
               <div class="form-group">

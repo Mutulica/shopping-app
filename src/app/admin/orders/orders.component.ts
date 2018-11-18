@@ -30,7 +30,6 @@ export class OrdersComponent implements OnInit {
     this.adminHttp.httpGetOrders().subscribe(
       res => {
         this.ordersData = res;
-        console.log(this.ordersData)
         this.status.loaded = true;
         this.sortedOrders = orderPipe.transform(this.ordersData, 'order_date');
       });

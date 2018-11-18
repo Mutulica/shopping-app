@@ -23,7 +23,7 @@
           <td class="align-middle"><button class="btn btn-sm btn-secondary" (click)="removeFromCart(item)">Remove</button></td>
           <td class="align-middle"> <img class="img-fluid" src="{{item.product.img}}" style="max-width: 150px"></td>
           <td class="align-middle">{{item.product.title}}</td>
-          <td class="align-middle">{{item.product.price * item.quantity}}</td>
+          <td class="align-middle">{{(item.product.price * item.quantity) |number : '1.2-2'}}</td>
           <td class="align-middle">
             <div class="d-flex justify-content-between align-items-center border border-light">
               <button class="btn btn-sm btn btn-outline-secondary" type="button" (click)="incrementQty(item, item.quantity)">

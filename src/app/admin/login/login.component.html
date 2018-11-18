@@ -9,6 +9,9 @@
       <label for="password">Password</label>
       <input ngModel type="password" class="form-control" name="password" id="password">
     </div>
+    <div *ngIf="message" class="col-md-12">
+      <p class="text-danger">{{message}}</p>
+    </div>
     <div class="form-group clearfix">
       <button (click)="loginWithEmailAndPass(f)" class="btn btn-block btn-primary float-right" type="submit" [disabled]="!f.valid">Login</button>
     </div>

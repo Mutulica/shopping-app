@@ -24,10 +24,9 @@ export class AuthService {
 
   // Login with email
   loginWithEmail (email, password) {
-    this.afAuth.auth.signInWithEmailAndPassword(email, password).then(res => {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password).then(res => {
       if (res) {
         this.userId = res.user.uid;
-        this.router.navigate(['/admin/dashboard']);
       }
     });
   }
@@ -38,9 +37,11 @@ export class AuthService {
       .then(res => {
         if (res.credential.providerId) {
           this.userId = res.user.uid;
-          this.router.navigate(['/admin/dashboard']);
+          this.router.navigate(['/admin/products']);
         }
-      });
+      }).catch(err => {
+        console.log(err);
+    });
   }
 
   // Logout

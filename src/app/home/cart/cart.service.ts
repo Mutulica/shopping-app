@@ -42,7 +42,9 @@ export class CartService {
     return this.itemsInCartSubject.pipe(
       map((items: CartInterface.Item[]) => {
         return items.reduce((prev, curr: CartInterface.Item) => {
-          return prev + (curr.product.price * curr.quantity);
+          const n =  prev + (curr.product.price * curr.quantity);
+          const total =  n.toFixed(2);
+          return +total;
         }, 0);
       })
     );

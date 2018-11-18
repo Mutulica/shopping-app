@@ -19,6 +19,7 @@ const homeRoutes: Routes = [
       { path: 'product/:id', component: ProductComponent },
       { path: 'cart', component: CartComponent },
       { path: 'checkout', component: CheckoutComponent, canActivate: [CheckoutGuard] },
+      { path: '**', redirectTo: 'home' }
     ] },
   { path: '**', redirectTo: 'home' }
 ];

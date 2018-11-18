@@ -62,7 +62,7 @@ export class ProductsComponent implements OnInit {
   public async addProduct() {
     if (this.productImage) {
       // Upload image
-      const imgURL =  this.adminHttp.uploadfile(this.productImage);
+      const imgURL = await this.adminHttp.uploadfile(this.productImage);
       this.prodForm.value.img = imgURL;
     } else {
       this.prodForm.value.img = '../../assets/img/product.png';
@@ -132,6 +132,10 @@ export class ProductsComponent implements OnInit {
    this.productImage = event.target.files[0];
   }
 
+  public onProductAdd() {
+    this.prodForm.reset();
+    this.productImage = null;
+  }
 
   // OrderBy Products
   public setOrder(value: string) {

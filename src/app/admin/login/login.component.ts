@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -10,9 +11,12 @@ export class LoginComponent implements OnInit {
 
   constructor(
     public authService: AuthService,
+    private router: Router
   ) {
 
   }
+
+  public message: string;
 
   ngOnInit() {
 
@@ -23,7 +27,13 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithEmailAndPass(form) {
-    this.authService.loginWithEmail(form.value.email, form.value.password);
+    this.authService.loginWithEmail(form.value.email, form.value.password).then(
+      res => {
+        this.router.navigate(['/admin/dashboard']);
+      }
+    ).catch(err => {
+      this.message = 'Wrong email or password';
+    });
   }
 
 }
