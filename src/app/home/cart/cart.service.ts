@@ -20,7 +20,7 @@ export class CartService {
   }
 
   // Add to cart
-  public addToCart(product: ProductInterface.Product, qty) {
+  public addToCart(product: ProductInterface.Product, qty: number) {
 
     const itemIndex: number = this.getSelectedIndex(product.id);
     if (itemIndex < 0) {

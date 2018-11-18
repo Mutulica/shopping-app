@@ -50,7 +50,7 @@ export class ProductComponent implements OnInit {
 
   public addToCart(item: ProductInterface.Product): void {
     if (item.qty > 0) {
-      this.cartService.addToCart(item, item.qty);
+      this.cartService.addToCart(item, +item.qty);
     }
   }
 
