@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ProductInterface } from './product/product.interface';
 
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -11,13 +10,11 @@ import { map } from 'rxjs/operators';
 
 export class HomeHttpService {
   private collectionName = 'products';
-  itemDoc: AngularFirestoreDocument<ProductInterface.Product>;
   itemsCollection: AngularFirestoreCollection<ProductInterface.Product>;
   items: Observable<ProductInterface.Product[]>;
 
   constructor(
     public afs: AngularFirestore,
-    public db: AngularFireDatabase
   ) {
     this.itemsCollection = this.afs.collection(this.collectionName, ref => ref.orderBy('title', 'asc'));
     this.getDocId().subscribe(res => console.log(res));
@@ -25,6 +22,15 @@ export class HomeHttpService {
 
   getAll() {
     return this.items = this.afs.collection(this.collectionName).snapshotChanges().pipe(map(changes => {
+      return changes.map( a => {
+        const data = a.payload.doc.data() as ProductInterface.Product;
+        return data;
+      });
+    }));
+  }
+
+  getWithLimit(limit: number) {
+    return this.items = this.afs.collection(this.collectionName, ref => ref.limit(limit)).snapshotChanges().pipe(map(changes => {
       return changes.map( a => {
         const data = a.payload.doc.data() as ProductInterface.Product;
         return data;
@@ -44,29 +50,23 @@ export class HomeHttpService {
     );
   }
 
+  // Get Prod by id
   public async getById(id: string) {
     return await this.itemsCollection.doc(id).ref.get().then(function(doc) {
       if (doc.exists) {
         return doc.data() as ProductInterface.Product;
       } else {
-        console.log("No such document!");
+        console.log('No such document!');
       }
     }).catch(function(error) {
-      console.log("Error getting document:", error);
+      console.log('Error getting document:', error);
     });
   }
 
-  // public async orderAdd(order: any) {
-  //   await this.itemsCollection.add(order);
-  // }
-
-  orderAdd(order) {
+  // Add order
+  public async orderAdd(order) {
     order.id = this.afs.createId();
-    this.afs.collection('orders').doc(order.id).set(order).then(
-      res => {
-        console.log(res);
-      }
-    );
+    return await this.afs.collection('orders').doc(order.id).set(order);
   }
 
 }

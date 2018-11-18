@@ -22,6 +22,7 @@ export class AuthService {
     this.userId = this.afAuth.auth.currentUser;
   }
 
+  // Login with email
   loginWithEmail (email, password) {
     this.afAuth.auth.signInWithEmailAndPassword(email, password).then(res => {
       if (res) {
@@ -31,6 +32,7 @@ export class AuthService {
     });
   }
 
+  // Login with Google
   loginWithGoogle () {
     this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider())
       .then(res => {
@@ -41,6 +43,7 @@ export class AuthService {
       });
   }
 
+  // Logout
   logout () {
     this.afAuth.auth.signOut().then(
       res => {
@@ -49,7 +52,7 @@ export class AuthService {
     );
   }
 
-
+  // Autenticated
   get autenticated() {
     return this.afAuth.authState;
   }

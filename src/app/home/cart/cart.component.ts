@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CartInterface } from './cart.interface';
-
 import { CartService } from './cart.service';
-
 import { Observable, of} from 'rxjs';
 
 @Component({
@@ -34,19 +32,23 @@ export class CartComponent implements OnInit {
    }
 
    // Remove item form cart
-   removeFromCart(item: CartInterface.Item) {
+  public removeFromCart(item: CartInterface.Item): void {
     this.cartService.removeFromCart(item);
    }
 
+   // Clear cart
+  public clearCart(): void {
+    this.cartService.clearCart();
+  }
+
   // Increment quantity
-  incrementQty(item: CartInterface.Item, qty: number) {
+  public incrementQty(item: CartInterface.Item, qty: number): void {
     qty++;
     this.cartService.updateCart(item, qty);
   }
 
   // Substract quantity
-  substractQty(item: CartInterface.Item, qty: number) {
-    // let newValue = +input.value;
+  public substractQty(item: CartInterface.Item, qty: number): void {
     if (qty > 1) {
       qty--;
       this.cartService.updateCart(item, qty);

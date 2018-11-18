@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {FormBuilder, FormArray, FormGroup, FormControl} from '@angular/forms';
+import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { ProductInterface } from './product.interface';
 import { ProductService } from './product.service';
 
-import {Product} from '../../entities/product.model';
 import {CartService} from '../cart/cart.service';
 import {CollectionService} from '../collection/collection.service';
 
@@ -45,7 +44,7 @@ export class ProductComponent implements OnInit {
       description: new FormControl(this.product.description),
       price: new FormControl(this.product.price),
       img: new FormControl(this.product.img),
-      qty: new FormControl(1)
+      qty: new FormControl(1),
     });
   }
 

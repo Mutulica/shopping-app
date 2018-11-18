@@ -3,11 +3,8 @@ import { Router } from '@angular/router';
 import { ProductInterface } from '../product/product.interface';
 
 import { CartService } from '../cart/cart.service';
-import {CollectionService} from './collection.service';
-import {HomeHttpService} from '../home-http.service';
-
-import {FormBuilder} from '@angular/forms';
-import { OrderPipe } from 'ngx-order-pipe';
+import { CollectionService } from './collection.service';
+import { UtilsService } from '../../utils/utils.service';
 
 
 @Component({
@@ -16,7 +13,9 @@ import { OrderPipe } from 'ngx-order-pipe';
   styleUrls: ['./collection.component.css']
 })
 export class CollectionComponent implements OnInit {
-  private filterAsc = false;
+
+  public status = { loaded: false, saving: false };
+  public message: string;
   public productData: ProductInterface.Product[];
   public p = 1;
   order = '';
@@ -25,13 +24,15 @@ export class CollectionComponent implements OnInit {
   constructor(
     private collectionService: CollectionService,
     private cartService: CartService,
-    private fb: FormBuilder,
     private router: Router,
-    private orderPipe: OrderPipe,
-    private homeHttp: HomeHttpService
+    public utilsService: UtilsService
   ) {
+    this.status.loaded = false;
 
-    this.collectionService.getAll().subscribe(res => this.productData = res);
+    this.collectionService.getAll().subscribe(res => {
+        this.productData = res;
+        this.status.loaded = true;
+    });
 
   }
 
@@ -44,6 +45,8 @@ export class CollectionComponent implements OnInit {
     item.qty = 1;
     if (item.qty > 0) {
       this.cartService.addToCart(item, item.qty);
+      this.message = 'Product added to cart';
+      this.utilsService.toggleNotification();
     }
   }
   // View Product
@@ -51,11 +54,6 @@ export class CollectionComponent implements OnInit {
     await this.router.navigate([`/home/product/${id}`]);
   }
 
-
-  filterProducts(field) {
-    this.filterAsc = !this.filterAsc;
-    this.collectionService.sortProducts(field.srcElement.value, this.filterAsc);
-  }
 
   // OrderBy Products
   public onSetOrder(value) {

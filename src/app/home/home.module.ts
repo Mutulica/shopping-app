@@ -10,6 +10,7 @@ import { CartComponent } from './cart/cart.component';
 import { ProductComponent } from './product/product.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { HeaderComponent } from './header/header.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 import { ProductService } from './product/product.service';
 import { CartService } from './cart/cart.service';
@@ -24,6 +25,7 @@ import { HomeRouting } from './home.routing';
 
 
 
+
 @NgModule({
   declarations: [
     CollectionComponent,
@@ -31,7 +33,8 @@ import { HomeRouting } from './home.routing';
     ProductComponent,
     CheckoutComponent,
     HomeComponent,
-    HeaderComponent
+    HeaderComponent,
+    LandingPageComponent
   ],
   imports: [
     CommonModule,

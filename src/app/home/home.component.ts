@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
-
-import { ProductInterface } from './product/product.interface';
 import { CartInterface } from './cart/cart.interface';
 
 import { ProductService } from './product/product.service';
-
 import { CartService } from './cart/cart.service';
 
 import { Observable } from 'rxjs';
@@ -16,7 +12,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  public productData: ProductInterface.Product[];
   public cart = [];
 
   public shoppingCartItems$: Observable<CartInterface.Item[]>;
@@ -34,9 +29,7 @@ export class HomeComponent implements OnInit {
     console.log(this.shoppingCartItems$);
   }
 
-  ngOnInit() {
-    //this.productData = this.productService.findAll();
-  }
+  ngOnInit() {}
 
 
 }

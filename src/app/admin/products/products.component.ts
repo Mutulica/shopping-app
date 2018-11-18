@@ -6,6 +6,7 @@ import { ProductInterface } from '../../home/product/product.interface';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from './product.service';
 import { OrderPipe } from 'ngx-order-pipe';
+import { UtilsService } from '../../utils/utils.service';
 
 
 @Component({
@@ -15,12 +16,13 @@ import { OrderPipe } from 'ngx-order-pipe';
 })
 export class ProductsComponent implements OnInit {
 
-  public status = { loaded: false, saving: false, canClick: false };
+  public status = { loaded: false, saving: false };
+  public message = '';
   public prodForm: FormGroup;
 
   public productData: ProductInterface.Product[] = [];
-  sortedCollection: ProductInterface.Product[];
-  public product: ProductInterface.Product;
+  public sortedCollection: ProductInterface.Product[];
+  public selectedProduct: ProductInterface.Product;
   private productImage;
   public p = 1;
   order = 'title';
@@ -30,10 +32,12 @@ export class ProductsComponent implements OnInit {
     private adminHttp: AdminHttpService,
     private productService: ProductService,
     private fb: FormBuilder,
-    private orderPipe: OrderPipe
+    private orderPipe: OrderPipe,
+    public utilsService: UtilsService
   ) {
 
     this.status.loaded = false;
+
     this.prodForm = this.fb.group({
       title: new FormControl('', Validators.required),
       id: new FormControl(''),
@@ -56,29 +60,31 @@ export class ProductsComponent implements OnInit {
 
   // Add Product
   public async addProduct() {
-
     if (this.productImage) {
       // Upload image
-      const imgURL = await this.adminHttp.uploadfile(this.productImage);
+      const imgURL =  this.adminHttp.uploadfile(this.productImage);
       this.prodForm.value.img = imgURL;
+    } else {
+      this.prodForm.value.img = '../../assets/img/product.png';
     }
     // insert product
       this.adminHttp.productAdd(this.prodForm.value).then(
         res => {
           this.productImage = null;
           this.prodForm.reset();
+          this.message = 'Product added';
+          this.utilsService.toggleNotification();
         }
       );
   }
 
   // Get Product by ID
-  public async getProduct(id: string) {
-
-    this.product = null;
+  public getProduct(id: string) {
+    this.selectedProduct = null;
     this.productService.findByID(id).then(
       res => {
         if (res) {
-          this.product =  res;
+          this.selectedProduct =  res;
         }
       }
     ).catch((err) => console.log(err));
@@ -86,7 +92,6 @@ export class ProductsComponent implements OnInit {
 
   // Update Product
   public async updateProduct() {
-
     if (this.productImage) {
       // Update Image
       const imgURL = await this.adminHttp.uploadfile(this.productImage);
@@ -97,31 +102,34 @@ export class ProductsComponent implements OnInit {
       res => {
         this.prodForm.reset();
         this.productImage = null;
+        this.message = 'Product updated';
+        this.utilsService.toggleNotification();
       }
     );
   }
 
   // Edit Product
   public editProduct(product) {
-    this.product = null;
+    this.selectedProduct = null;
     const index = this.productData.indexOf(product);
-    this.product = this.productData[index];
+    this.selectedProduct = this.productData[index];
     if (index > -1) {
       this.prodForm.patchValue(this.productData[index]);
     }
   }
 
   // Delete Product
-  public async deleteProduct(id) {
-    await this.adminHttp.productDelete(id);
+  public deleteProduct(id): void {
+     this.adminHttp.productDelete(id).then(
+       res => {
+         this.message = 'Product deleted';
+         this.utilsService.toggleNotification();
+       }
+     );
   }
 
   public onFileUpload(event) {
    this.productImage = event.target.files[0];
-  }
-
-  onEditProduct() {
-    console.log(this.prodForm.value);
   }
 
 
@@ -132,4 +140,5 @@ export class ProductsComponent implements OnInit {
     }
     this.order = value;
   }
+
 }

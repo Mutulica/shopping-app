@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart/cart.service';
 import {Observable} from 'rxjs';
-import {FormBuilder, NgForm, FormGroup, FormControl, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
 import {HomeHttpService} from '../home-http.service';
 
 import { OrderInterface } from '../../shared/order.interface';
@@ -18,6 +18,8 @@ export class CheckoutComponent implements OnInit {
   public cartItems: CartInterface.Item[] = [];
   public cartTotal: number;
   public checkoutForm: FormGroup;
+  public status = { loaded: false, saving: false };
+  public message: string;
 
   constructor(
     private cartService: CartService,
@@ -44,13 +46,20 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
   }
 
+  // Place Order
   public placeOrder() {
+    this.status.saving = true;
+
     const order: OrderInterface.Order = {
       details: this.checkoutForm.value,
       products: this.cartItems,
       order_date:  new Date().getTime(),
       total: this.cartTotal
     };
-   this.homeHttp.orderAdd(order);
+
+   this.homeHttp.orderAdd(order).then(res => {
+     this.cartService.clearCart();
+     this.message = 'Thank you for your order.';
+   });
   }
 }

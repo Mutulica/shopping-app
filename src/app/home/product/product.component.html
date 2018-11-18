@@ -1,7 +1,7 @@
-<div *ngIf="product" class="container" [formGroup]="prodForm">
+<div *ngIf="product" class="container mt-5 pt-4" [formGroup]="prodForm">
   <div class="row">
     <div class="col-md-5 border border-light">
-      <img class="img-fluid" [src]="product.img" alt="">
+      <img class="img-fluid" [src]="product.img ? product.img : '../../assets/img/product.png'" alt="">
     </div>
     <div class="col-md-7">
 

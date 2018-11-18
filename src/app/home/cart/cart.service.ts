@@ -66,6 +66,12 @@ export class CartService {
     this.itemsInCartSubject.next(this.cartProducts);
   }
 
+  // Clear Cart
+  public clearCart() {
+    this.cartProducts = [];
+    this.itemsInCartSubject.next([...this.cartProducts]);
+  }
+
   // Find Index
   private getSelectedIndex(id: string): number {
     for (let i = 0; i < this.cartProducts.length; i++) {

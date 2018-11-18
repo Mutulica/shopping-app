@@ -1,11 +1,14 @@
-<div  class="container-fluid px-0">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+<div  class="container-fluid px-0 bg-light">
+  <div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light ">
     <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/home">Home <span class="sr-only">(current)</span></a>
+        </li>
         <li class="nav-item active">
           <a class="nav-link" routerLink="/home/collection">Products <span class="sr-only">(current)</span></a>
         </li>
@@ -20,10 +23,48 @@
       </button>
     </div>
     <div class="float-right">
-      <button routerLink="/home/cart" class="btn btn-primary">
-        <i class="fa fa-shopping-cart fa-2x"></i>
-        {{totalItems.length}}
-      </button>
+      <div class="dropdown">
+        <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-shopping-cart fa-1x"></i>
+          {{totalItems.length}}
+        </a>
+
+        <div class="dropdown-menu dropdown-menu-right" id="mini-cart" aria-labelledby="dropdownMenuLink">
+          <div *ngIf="totalPrice > 0">
+            <div  style="width: 300px; right: 0; bottom: 0; max-height: 250px; overflow: auto;">
+              <div *ngFor="let item of totalItems" class="p-2">
+                <div class="d-flex justify-content-between">
+                  <div class="p-2">
+                    {{item.product.title}}
+                    <p>{{item.quantity}} x ${{item.product.price}}</p>
+                  </div>
+                  <div>
+                    <img [src]="item.product.img" width="60" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="border-top border-light py-2 px-4">
+              <div class="d-flex justify-content-between">
+                <strong>Total:</strong>
+                <h5>${{totalPrice}}</h5>
+              </div>
+            </div>
+            <div class="p-2">
+              <button routerLink="/home/cart" class="btn btn-outline-info">Shopping cart</button>
+              <button routerLink="/home/checkout" class="btn btn-outline-primary float-right">Checkout</button>
+            </div>
+          </div>
+          <div style="width: 300px;" *ngIf="totalPrice === 0">
+            <div class="p-2">
+              There are no products in your shopping cart
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </nav>
+
+  </div>
 </div>

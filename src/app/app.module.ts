@@ -11,7 +11,7 @@ import {HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
-import { CustomValidators } from './utils/validators.service';
+import { UtilsService } from './utils/utils.service';
 import { CartService } from './home/cart/cart.service';
 import { CollectionService } from './home/collection/collection.service';
 import { ProductService } from './home/product/product.service';
@@ -39,7 +39,7 @@ import { AppRouting } from './app.routing';
     CollectionService,
     ProductService,
     AngularFireAuth,
-    CustomValidators
+    UtilsService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mt-5 pt-4">
   <div class="row">
     <div class="col-md-12 mb-4">
       <h4>Cart Info</h4>
@@ -41,13 +41,14 @@
         </tbody>
         <tfoot>
         <td colspan="4" align="right" class="align-middle">Total</td>
-        <td class="align-middle"><h4>{{totalPrice}}</h4></td>
+        <td class="align-middle"><h4>${{totalPrice}}</h4></td>
         </tfoot>
       </table>
       <div class="col-md-12">
         <div class="p-3">
-          <button routerLink='/home/checkout' class="btn btn-lg btn-outline-primary text-uppercase float-right ml-4">Check out</button>
-          <button class="btn btn-lg btn-primary text-uppercase float-right">Back</button>
+          <button (click)="clearCart()" class="btn btn-outline-secondary">Clear cart</button>
+          <button routerLink='/home/checkout' class="btn btn-primary text-uppercase float-right ml-4">Check out</button>
+          <button routerLink='/home/collection' class="btn btn-outline-primary text-uppercase float-right">Continue Shopping</button>
         </div>
       </div>
     </div>

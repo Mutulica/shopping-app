@@ -1,18 +1,40 @@
-<div class="container" *ngIf="ordersData">
-  <h4>Orders</h4>
+<h4>Orders</h4>
+<div *ngIf="!ordersData.length">
+  <h5>There are no orders</h5>
+</div>
+<div class="container" *ngIf="ordersData.length > 0 && status.loaded">
   <table class="table">
     <thead>
     <tr>
       <th scope="col"></th>
-      <th scope="col">Name</th>
+      <th scope="col" class="clickable"
+          (click)="setOrder('details.name')"
+          [class.active]="sort === 'details.name'">
+
+        Name
+        <span [hidden]="!reverse">▼</span>
+        <span [hidden]="reverse">▲</span>
+      </th>
       <th scope="col">Total items</th>
-      <th scope="col">Total amount</th>
-      <th scope="col">Date</th>
+      <th scope="col"
+          (click)="setOrder('total')"
+          [class.active]="sort === 'total'">
+        Total amount
+        <span [hidden]="!reverse">▼</span>
+        <span [hidden]="reverse">▲</span>
+      </th>
+      <th scope="col" class="clickable"
+          (click)="setOrder('order_date')"
+          [class.active]="sort === 'order_date'">
+        Date
+        <span [hidden]="!reverse">▼</span>
+        <span [hidden]="reverse">▲</span>
+      </th>
       <th scope="col">Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let order of ordersData | paginate: { itemsPerPage: 10, currentPage: p }">
+    <tr *ngFor="let order of ordersData | paginate: { itemsPerPage: 10, currentPage: p } | orderBy: sort:reverse:'case-insensitive'">
       <th class="align-middle" scope="row"></th>
       <td class="align-middle">{{order.details.name}}</td>
       <td class="align-middle">{{order.products.length}}</td>
@@ -22,9 +44,6 @@
         <div class="d-flex justify-content-end">
           <button (click)="deleteOrder(order.id)" class="btn btn-sm btn-secondary mr-2">
             <i class="fa fa-trash"></i>
-          </button>
-          <button (click)="editOrder(order)" data-toggle="modal" data-target="#editModal" class="btn btn-sm btn-secondary mr-2">
-            <i class="fa fa-pencil"></i>
           </button>
           <button data-toggle="modal" data-target="#modalView" (click)="getOrder(order.id)" class="btn btn-sm btn-secondary">
             <i class="fa fa-eye"></i>
@@ -44,21 +63,22 @@
   <div class="modal-dialog" role="document">
     <div *ngIf="order" class="modal-content">
       <div class="modal-header">
+        <p class="mb-0">{{order.order_date | date:'short'}}</p>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="py-3">
-          <h5>Name: {{order.details.name}}</h5>
-          <p class="mb-2">{{order.details.address}}</p>
+          <h5>{{order.details.name}}</h5>
+          <p class="mb-2">{{order.details.address}}, {{order.details.city}}, {{order.details.country}}</p>
           <p>{{order.details.email}}</p>
         </div>
         <div class="py-3">
           <ul class="list-group list">
             <li *ngFor="let product of order.products" class="list-group-item">
               <div class="">
-                <p class="mb-0">Product: {{product.product.title}}</p>
+                <p class="mb-0">{{product.product.title}}</p>
                 <h6>Quantity: {{product.quantity}}</h6>
               </div>
             </li>
